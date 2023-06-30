@@ -21,5 +21,5 @@ steps:
       from_secret: WIZ_ENV
   commands:
     - echo $WIZ_CLIENT_ID
-    - /entrypoint auth --id wgxq75hrlndpbktx3eupevf2x363p5wacqsv4z5xbqndwtq6vi4xg --secret 3AjTFPxVrNonJPXDi1rmTPSZD8zXmDNVoMSFo0V5gta4eUx0T3CA5op2YeGwHWuy
+    - /entrypoint auth --id wgxq75hrlndpbktx3eupevf2xzcy3dcftn3fib4qhdliczkzlifhg --secret tknefExtyhULBvm1M7quC0eUJGw7BKaTBc4z5ZInJPanSR5xPofMXN0j5PVhEJZ8
     - /entrypoint iac scan --path ./ -p $WIZ_POLICY
