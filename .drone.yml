@@ -21,5 +21,5 @@ steps:
       from_secret: WIZ_DIR
   commands:
     - echo $WIZ_CLIENT_ID
-    - /entrypoint auth --id=$WIZ_CLIENT_ID --secret=$WIZ_CLIENT_SECRET
+    - /entrypoint auth --id WIZ_CLIENT_ID --secret $WIZ_CLIENT_SECRET
     - /entrypoint iac scan --path ./ -p $WIZ_POLICY
