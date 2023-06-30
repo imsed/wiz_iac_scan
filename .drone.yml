@@ -12,7 +12,7 @@ steps:
 - name: Scan with WIZCLI
   image: wiziocli.azurecr.io/wizcli:latest
   environment:
-    WIZ_POLICY: david-iac
+    WIZ_POLICY: imsed-mis-policy
     WIZ_CLIENT_ID:
       from_secret: WIZ_CLIENT_ID
     WIZ_CLIENT_SECRET:
