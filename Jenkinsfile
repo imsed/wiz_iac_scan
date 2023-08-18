@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            label 'wizcli-agent'
+            label 'my-k8s-agent'
             defaultContainer 'jnlp'
             yaml """
 apiVersion: v1
