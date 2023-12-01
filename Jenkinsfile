@@ -39,14 +39,6 @@ spec:
             }
         }
         
-        stage('Scan with WIZCLI') {
-            steps {
-                container('wizcli') {
-                    // Run the commands. Now, the code should be available at /workspace within the wizcli container.
-                    sh '/entrypoint version'
 
-                }
-            }
-        }
     }
 }
