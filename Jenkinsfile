@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            label 'my-k8s-agent'
+            label 'my-k8s-agent-01'
             defaultContainer 'jnlp'
             yaml """
 apiVersion: v1
@@ -11,8 +11,8 @@ metadata:
     some-label: wizcli
 spec:
   containers:
-  - name: wizcli
-    image: wiziocli.azurecr.io/wizcli:latest
+  - name: ubuntu
+    image: ubuntu:latest
     command:
     - cat
     tty: true
@@ -40,12 +40,16 @@ spec:
             }
         }
         
-        stage('Scan with WIZCLI') {
+        stage('Install and Scan with WIZCLI') {
             steps {
-                container('wizcli') {
-                    // Run the commands. Now, the code should be available at /workspace within the wizcli container.
-                    sh '/entrypoint auth --id $WIZ_CLIENT_ID --secret $WIZ_CLIENT_SECRET'
-                    sh '/entrypoint iac scan --path /workspace -p $WIZ_POLICY'
+                container('ubuntu') {
+                    sh """
+                    apt-get update && apt-get install -y curl
+                    curl -o wizcli https://wizcli.app.wiz.io/latest/wizcli-linux-amd64
+                    chmod +x wizcli
+                    ./wizcli auth --id $WIZ_CLIENT_ID --secret $WIZ_CLIENT_SECRET
+                    ./wizcli iac scan --path /workspace -p $WIZ_POLICY
+                    """
                 }
             }
         }
