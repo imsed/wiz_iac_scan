@@ -14,7 +14,7 @@ spec:
   - name: wizcli
     image: wiziocli.azurecr.io/wizcli:latest
     command:
-    - cat
+    - ls
     tty: true
     volumeMounts:
       - name: workspace-volume
