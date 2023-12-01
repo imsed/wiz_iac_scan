@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            label 'my-k8s-agent-01'
+            label 'wizcli-agent'
             defaultContainer 'jnlp'
             yaml """
 apiVersion: v1
@@ -14,7 +14,7 @@ spec:
   - name: wizcli
     image: wiziocli.azurecr.io/wizcli:latest
     command:
-    - ls
+    - cat
     tty: true
     volumeMounts:
       - name: workspace-volume
@@ -25,13 +25,13 @@ spec:
 """
         }
     }
-​
+
     environment {
         WIZ_POLICY = 'imsed-mis-policy'
         WIZ_CLIENT_ID = credentials('WIZ_CLIENT_ID')
         WIZ_CLIENT_SECRET = credentials('WIZ_CLIENT_SECRET')
     }
-​
+
     stages {
         stage('Checkout') {
             steps {
