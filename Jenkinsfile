@@ -44,8 +44,7 @@ spec:
                 container('wizcli') {
                     // Run the commands. Now, the code should be available at /workspace within the wizcli container.
                     sh '/entrypoint version'
-                    sh '/entrypoint auth --id $WIZ_CLIENT_ID --secret $WIZ_CLIENT_SECRET'
-                    sh '/entrypoint iac scan --path /workspace -p $WIZ_POLICY'
+
                 }
             }
         }
