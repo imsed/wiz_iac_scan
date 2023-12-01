@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            label 'my-k8s-agent-01'
+            label 'my-k8s-agent'
             defaultContainer 'jnlp'
             yaml """
 apiVersion: v1
@@ -11,10 +11,10 @@ metadata:
     some-label: wizcli
 spec:
   containers:
-  - name: alpine
-    image: alpine:latest
+  - name: wizcli
+    image: wiziocli.azurecr.io/wizcli:latest
     command:
-    - cat
+    - ls
     tty: true
     volumeMounts:
       - name: workspace-volume
@@ -25,13 +25,13 @@ spec:
 """
         }
     }
-
+​
     environment {
         WIZ_POLICY = 'imsed-mis-policy'
         WIZ_CLIENT_ID = credentials('WIZ_CLIENT_ID')
         WIZ_CLIENT_SECRET = credentials('WIZ_CLIENT_SECRET')
     }
-
+​
     stages {
         stage('Checkout') {
             steps {
@@ -40,15 +40,12 @@ spec:
             }
         }
         
-        stage('Install and Scan with WIZCLI') {
+        stage('Scan with WIZCLI') {
             steps {
-                container('alpine') {
-                    sh """
-                    curl -o wizcli https://wizcli.app.wiz.io/latest/wizcli-linux-amd64
-                    chmod +x wizcli
-                    ./wizcli auth --id $WIZ_CLIENT_ID --secret $WIZ_CLIENT_SECRET
-                    ./wizcli iac scan --path /workspace -p $WIZ_POLICY
-                    """
+                container('wizcli') {
+                    // Run the commands. Now, the code should be available at /workspace within the wizcli container.
+                    sh '/entrypoint auth --id $WIZ_CLIENT_ID --secret $WIZ_CLIENT_SECRET'
+                    sh '/entrypoint iac scan --path /workspace -p $WIZ_POLICY'
                 }
             }
         }
