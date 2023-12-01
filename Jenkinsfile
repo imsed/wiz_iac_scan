@@ -11,8 +11,8 @@ metadata:
     some-label: wizcli
 spec:
   containers:
-  - name: ubuntu
-    image: ubuntu:latest
+  - name: alpine
+    image: alpine:latest
     command:
     - cat
     tty: true
@@ -42,9 +42,8 @@ spec:
         
         stage('Install and Scan with WIZCLI') {
             steps {
-                container('ubuntu') {
+                container('alpine') {
                     sh """
-                    apt-get update && apt-get install -y curl
                     curl -o wizcli https://wizcli.app.wiz.io/latest/wizcli-linux-amd64
                     chmod +x wizcli
                     ./wizcli auth --id $WIZ_CLIENT_ID --secret $WIZ_CLIENT_SECRET
