@@ -13,9 +13,8 @@ spec:
   containers:
   - name: wizcli
     image: wiziocli.azurecr.io/wizcli:latest
-    command:
-    - ls
     tty: true
+    stdin: true
     volumeMounts:
       - name: workspace-volume
         mountPath: /workspace
