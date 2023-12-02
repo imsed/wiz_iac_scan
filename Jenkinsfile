@@ -12,9 +12,9 @@ metadata:
 spec:
   containers:
   - name: wizcli
-    image: wiziocli.azurecr.io/wizcli:latest
+    image: alpine:3
+    command: ["sh", "-c", "apk add ca-certificates wget && wget -O /entrypoint https://wizcli.app.wiz.io/latest/wizcli-linux-amd64 && chmod +x /entrypoint && tail -f /dev/null"]
     tty: true
-    stdin: true
     volumeMounts:
       - name: workspace-volume
         mountPath: /workspace
@@ -39,6 +39,14 @@ spec:
             }
         }
         
-
+        stage('Scan with WIZCLI') {
+            steps {
+                container('wizcli') {
+                    // Run the commands. Now, the code should be available at /workspace within the wizcli container.
+                    sh '/entrypoint auth --id $WIZ_CLIENT_ID --secret $WIZ_CLIENT_SECRET'
+                    sh '/entrypoint iac scan --path /workspace -p $WIZ_POLICY'
+                }
+            }
+        }
     }
 }
